@@ -1,7 +1,7 @@
 # defining the base image
-FROM nginx:1.15.0-alpine
+FROM nginx:alpine
 
 # copying the content of the current directory to the path (location into nginx container)
-# COPY . /usr/share/nginx/html
+COPY . /usr/share/nginx/html
 
 
