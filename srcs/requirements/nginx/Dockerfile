@@ -1,9 +1,14 @@
-# defining the base image
+# Pull the nginx image
 FROM nginx
 
-RUN apt-get update
+# Installing nginx
+RUN apt-get update && apt-get install nginx
 
-# copying the content of the current directory to the path (location into nginx container)
-COPY index.html /usr/share/nginx/html
+# Copy the our config (default) to nginx config
+COPY conf/default /etc/nginx/sites-avaible/default
 
+# Expose the port for server
+EXPOSE 80/tcp
 
+# Run the nginx server
+CMD [ "/usr/sbin/nginx", "-g", "deamon off;" ]
