@@ -1,16 +1,10 @@
-version: "3.8"
+version: "3"
 
 services:
   nginx:
-    # build: "./requirements/nginx"
-
-    image: nginx:alpine
+    image: stronk/test
     ports:
-      - 80:80
-      - 443:443
-    # volumes:
-    #   - "./nginx/:/etc/nginx/templates"
-    #   - ./certs:/etc/certs
-    # restart: always
-  mariadb:
-  wordpress:
+      - "80:443"
+    volumes:
+      - /home/login/data:/src/usr/share/nginx/html
+    restart: always

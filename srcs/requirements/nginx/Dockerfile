@@ -1,14 +1,9 @@
-# Pull the nginx image
-FROM nginx
+FROM debian:buster
 
-# Installing nginx
-RUN apt-get update && apt-get install nginx
+RUN apt-get -y  update && apt-get -y install nginx
 
-# Copy the our config (default) to nginx config
-COPY conf/default /etc/nginx/sites-avaible/default
+COPY conf/default /etc/nginx/sites-available/default
 
-# Expose the port for server
-EXPOSE 80/tcp
+COPY index.html /usr/share/nginx/html
 
-# Run the nginx server
-CMD [ "/usr/sbin/nginx", "-g", "deamon off;" ]
+CMD ["/usr/sbin/nginx", "-g", "daemon off;"]
