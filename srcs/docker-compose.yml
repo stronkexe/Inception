@@ -2,9 +2,10 @@ version: "3"
 
 services:
   nginx:
-    image: stronk/test
+    image: mynginx
     ports:
-      - "80:443"
+      - "443:443"
     volumes:
       - /home/login/data:/src/usr/share/nginx/html
+      - /etc/nginx/ssl:/etc/nginx/ssl
     restart: always
