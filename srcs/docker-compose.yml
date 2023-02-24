@@ -9,3 +9,6 @@ services:
       - /home/login/data:/src/usr/share/nginx/html
       - /etc/nginx/ssl:/etc/nginx/ssl
     restart: always
+  mariadb:
+    image: mdb
+    restart: always
