@@ -6,16 +6,29 @@ services:
     ports:
       - "443:443"
     volumes:
-      - /home/login/data:/src/usr/share/nginx/html
+      # - /home/login/data:/src/usr/share/nginx/html
       - /etc/nginx/ssl:/etc/nginx/ssl
     restart: always
   db:
-    image: mdb
+    image: mymdb
     environment:
-      MYSQL_USER: user
-      MYSQL_ROOT_PASSWORD: rootpass
-      MYSQL_PASSWORD: pass
+      MYSQL_ROOT_PASSWORD: pass1234
+      MYSQL_DATABASE: wordpress
+      MYSQL_USER: wordpress
+      MYSQL_PASSWORD: wordpress
     ports:
       - 3306:3306
     restart: always
+  wp:
+    depends_on:
+      - mymdb
+    image: mywp
+    ports:
+      - 8000:80
+    restart: always
+    environment:
+      WORDPRESS_DB_HOST: mymd:3306
+      WORDPRESS_DB_USER: wordpress
+      WORDPRESS_DB_PASSWORD: wordpress
+
   

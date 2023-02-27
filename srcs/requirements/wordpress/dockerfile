@@ -1,0 +1,15 @@
+FROM debian:buster
+
+RUN apt-get -y update && apt-get -y upgrade &&\
+	apt-get -y install nginx &&\
+	apt-get install php-fpm -y
+
+COPY default /etc/nginx/sites-available
+
+COPY index.html /var/www/html/
+
+COPY info.php /var/www/html/
+
+COPY www.conf /etc/php/7.3/fpm/pool.d
+
+CMD ["/usr/sbin/nginx", "-g", "daemon off;"]
