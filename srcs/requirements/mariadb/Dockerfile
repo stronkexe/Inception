@@ -5,11 +5,11 @@ RUN apt-get -y update && apt-get -y upgrade &&\
 	apt-get -y install mariadb-server mariadb-client
 
 
-COPY script.sh /
+COPY tools/script.sh /
 
-COPY initdb.sql /
+COPY tools/initdb.sql /
 
-RUN chmod 777 script.sh
+RUN chmod 777 tools/script.sh
 
 # RUN sh script.sh
 
