@@ -4,13 +4,13 @@ RUN apt-get -y update && apt-get -y upgrade &&\
 	apt-get -y install curl &&\
 	apt-get -y install php php7.3-mysql
 
-# COPY default /etc/nginx/sites-available
 
-# COPY info.php /var/www/html/
+COPY info.php /var/www/html/
 
-COPY www.conf /etc/php/7.3/fpm/pool.d
+COPY conf/www.conf /etc/php/7.3/fpm/pool.d
 
 # COPY wp-config.php /
+
 COPY ./script.sh /
 
 RUN chmod 777 script.sh
