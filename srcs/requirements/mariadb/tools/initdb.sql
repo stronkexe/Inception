@@ -1,11 +1,12 @@
-CREATE DATABASE hamid;
+CREATE DATABASE wordpress;
 
-USE hamid;
+CREATE USER 'stronk'@'%' IDENTIFIED BY 'pass';
+GRANT ALL PRIVILEGES ON wordpress.* TO 'stronk'@'%';
+FLUSH PRIVILEGES;
 
-CREATE TABLE hamidovich (_id int, _name varchar(55));
+CREATE USER 'stronkest'@'%' IDENTIFIED BY 'stronkpass';
+GRANT SELECT ON wordpress.* TO 'stronkest'@'%';
+FLUSH PRIVILEGES;
 
-INSERT INTO hamidovich(_id, _name) VALUES(1, "hamida");
-
-SHOW TABLES;
-
-SELECT * FROM hamidovich;
+ALTER USER 'root'@'localhost' IDENTIFIED BY 'pass1234';
+FLUSH PRIVILEGES;

@@ -1,18 +1,16 @@
 FROM debian:buster
 
 RUN apt-get -y update && apt-get -y upgrade &&\
-	apt-get -y install default-mysql-server &&\
-	apt-get -y install mariadb-server mariadb-client
+	apt-get -y install default-mysql-server
 
+COPY initdb.sql /
 
-COPY tools/script.sh /
+COPY 50-server.cnf /etc/mysql/mariadb.conf.d/
 
-COPY tools/initdb.sql /
+COPY script.sh /
 
-RUN chmod 777 tools/script.sh
+RUN chmod 777 script.sh
 
-# RUN sh script.sh
+RUN service mysql start && mysql < initdb.sql
 
-ENTRYPOINT [ "./script.sh" ]
-
-CMD [ "bash", "mysqld_safe" ]
+CMD [ "mysqld" ]

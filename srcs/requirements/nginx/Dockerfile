@@ -1,9 +1,12 @@
 FROM debian:buster
 
-RUN apt-get -y  update && apt-get -y install nginx
+RUN apt-get -y  update && apt-get -y upgrade &&\
+	apt-get -y install nginx && apt-get install openssl
 
-COPY conf/default /etc/nginx/sites-available/default
+RUN openssl req -new -newkey rsa:4096 -days 365 -nodes -x509 \
+    -subj "/C=MA/ST=Denial/L=Springfield/O=Dis/CN=www.ael-asri.com" \
+    -keyout /etc/ssl/private/ael-asri.key  -out /etc/ssl/certs/ael-asri.crt
 
-COPY index.html /usr/share/nginx/html
+COPY conf/default /etc/nginx/sites-enabled/default
 
-CMD ["/usr/sbin/nginx", "-g", "daemon off;"]
+CMD ["nginx", "-g", "daemon off;"]

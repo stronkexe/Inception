@@ -1,21 +1,17 @@
 server {
 	listen					443 ssl;
-	server_name				ael-asri;
+	server_name				ael-asri.42.fr;
 
-	ssl_certificate			/etc/nginx/ssl/ael-asri.cert;
-	ssl_certificate_key		/etc/nginx/ssl/ael-asri.key;
+	ssl_certificate			/etc/ssl/certs/ael-asri.crt;
+	ssl_certificate_key		/etc/ssl/private/ael-asri.key;
 	ssl_protocols			TLSv1.2 TLSv1.3;
 
-	root					/var/www/html;
-	index					info.php index.html;
+	root					/var/www/html/wordpress;
+	index					index.php;
 
 	location ~ \.php$ {
 		include /etc/nginx/fastcgi.conf;
-		fastcgi_pass 127.0.0.1:9000;
+		fastcgi_pass wordpress:9000;
 	}
 
-
-  location ~ /\.ht {
-    deny all;
-  }
 }
