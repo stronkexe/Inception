@@ -54,14 +54,14 @@ volumes:
     driver_opts:
       o: bind
       type: none
-      device: "/home/$USER/data/db_data"
+      device: "/home/stronk/data/db_data"
   wp_data:
     name: wp_data
     driver: local
     driver_opts:
       o: bind 
       type: none
-      device: "/home/$USER/data/wp_data"
+      device: "/home/stronk/data/wp_data"
 
 networks:
   inception:
