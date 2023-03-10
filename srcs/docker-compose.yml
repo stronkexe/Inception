@@ -7,7 +7,8 @@ services:
       context: ./requirements/nginx
       dockerfile: Dockerfile
     ports:
-      - "443:443"
+      # - 80
+      - 443:443
     env_file:
       - ./.env
     volumes:
@@ -43,6 +44,38 @@ services:
     volumes:
       - wp_data:/var/www/html
     container_name: wordpress
+    networks:
+      - inception
+    restart: always
+    
+  adminer:
+    build: 
+      context: requirements/bonus/adminer
+      dockerfile: Dockerfile
+    ports:
+      - 8000:8000
+    depends_on:
+      - mariadb
+    container_name: adminer
+    env_file:
+      - .env
+    networks:
+      - inception
+    restart: always
+
+  redis:
+    depends_on:
+      - wordpress
+    build:
+      context: ./requirements/bonus/redis
+      dockerfile: Dockerfile
+    # expose:
+    #   - 9000
+    env_file:
+      - ./.env
+    volumes:
+      - wp_data:/var/www/html
+    container_name: redis
     networks:
       - inception
     restart: always
