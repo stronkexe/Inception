@@ -1,4 +1,4 @@
-version: '3.5'
+version: '3'
 services:
   nginx:
     depends_on:
@@ -7,13 +7,13 @@ services:
       context: ./requirements/nginx
       dockerfile: Dockerfile
     ports:
-      # - 80
       - 443:443
     env_file:
       - ./.env
     volumes:
       - wp_data:/var/www/html
     container_name: nginx
+    image: nginx
     networks:
       - inception
     restart: always
@@ -28,6 +28,7 @@ services:
     volumes:
       - db_data:/var/lib/mysql
     container_name: mariadb
+    image: mariadb
     networks:
       - inception
     restart: always
@@ -44,6 +45,7 @@ services:
     volumes:
       - wp_data:/var/www/html
     container_name: wordpress
+    image: wordpress
     networks:
       - inception
     restart: always
@@ -57,6 +59,7 @@ services:
     depends_on:
       - mariadb
     container_name: adminer
+    image: adminer
     env_file:
       - .env
     networks:
@@ -69,16 +72,48 @@ services:
     build:
       context: ./requirements/bonus/redis
       dockerfile: Dockerfile
-    # expose:
-    #   - 9000
     env_file:
       - ./.env
     volumes:
       - wp_data:/var/www/html
     container_name: redis
+    image: redis
     networks:
       - inception
     restart: always
+
+  website:
+    container_name: website
+    build:
+      context: ./requirements/bonus/website
+      dockerfile: Dockerfile
+    image: website
+    depends_on:
+      - nginx
+    ports:
+      - 7000:7000
+    restart: always
+    env_file:
+      - .env
+    networks:
+      - inception
+
+  bck_service:
+    build:
+      context: ./requirements/bonus/bck_service
+      dockerfile: Dockerfile
+    image: bck_service
+    depends_on:
+      - mariadb
+    volumes:
+      - db_data:/db_data
+      - bck_data:/bck_service
+    # env_file:
+    #   - .env
+    container_name: bck_service
+    restart: always
+    networks:
+      - inception
 
 volumes:
   db_data:
@@ -95,6 +130,13 @@ volumes:
       o: bind 
       type: none
       device: "/home/stronk/data/wp_data"
+  bck_data:
+    name: bck_data
+    driver: local
+    driver_opts:
+      o: bind
+      type: none
+      device: "/home/stronk/data/bck_data"
 
 networks:
   inception:
