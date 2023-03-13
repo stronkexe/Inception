@@ -1,0 +1,10 @@
+server {
+	listen 4000;
+
+	index index.html;
+	root /var/www/html;
+
+	location / {
+		try_files $uri $uri/ /index.html=404;
+	}
+}

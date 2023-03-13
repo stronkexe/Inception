@@ -19,10 +19,10 @@ $(NAME):
 	sudo mkdir -p "/home/$(USER)/data/wp_data"
 	sudo mkdir -p "/home/$(USER)/data/bck_data"
 	sudo sh -c 'echo "127.0.1.1\ael-asri.42.fr"  >> /etc/hosts'
-	docker compose -f ./srcs/docker-compose.yml up --build -d
+	docker-compose -f ./srcs/docker-compose.yml up --build -d
 
 down:
-	docker compose -f ./srcs/docker-compose.yml down
+	docker-compose -f ./srcs/docker-compose.yml down
 	sudo rm -rf "/home/$(USER)/data/db_data"
 	sudo rm -rf "/home/$(USER)/data/wp_data"
 	sudo rm -rf "/home/$(USER)/data/bck_data"

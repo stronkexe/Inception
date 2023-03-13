@@ -1,22 +1,46 @@
 FROM debian:buster
-
-RUN apt-get -y update && apt-get -y upgrade &&\
-	apt-get -y install curl wget &&\
-	apt-get -y install php php-fpm php-mysqli
-
+RUN apt-get -y update
+RUN apt-get -y install php \
+    php-fpm \
+    php-mysqli \
+    wget \
+    php-common \
+    curl \
+    sudo \
+    php-xml
 RUN wget https://wordpress.org/latest.tar.gz
 RUN tar -xzvf latest.tar.gz
+RUN chown -R www-data:www-data wordpress
 RUN mkdir -p /var/www/html
 RUN mv wordpress /var/www/html
-
-COPY conf/wp-config-sample.php /var/www/html/wp-config.php
+COPY conf/wp-config-sample.php /var/www/html/wordpress/wp-config.php
 COPY conf/www.conf /etc/php/7.3/fpm/pool.d/www.conf
-
-#- why this \/\/\/
+RUN chmod 777 /var/www/html/wordpress/wp-config.php
 RUN mkdir -p /run/php
-#- why this \/\//\
-COPY script.sh /
-RUN chmod +x /script.sh
-
+COPY script.sh .
+RUN chmod +x script.sh
 RUN service php7.3-fpm restart
-CMD ./script.sh && php-fpm7.3 -F
+CMD sh script.sh && php-fpm7.3 -F
+
+# FROM debian:buster
+
+# RUN apt-get -y update && apt-get -y upgrade &&\
+# 	apt-get -y install curl wget &&\
+# 	apt-get -y install php php-fpm php-mysqli
+
+# RUN wget https://wordpress.org/latest.tar.gz
+# RUN tar -xzvf latest.tar.gz
+# RUN mkdir -p /var/www/html
+# RUN mv wordpress /var/www/html
+
+# COPY conf/wp-config-sample.php /var/www/html/wp-config.php
+# COPY conf/www.conf /etc/php/7.3/fpm/pool.d/www.conf
+
+# #- why this \/\/\/
+# RUN mkdir -p /run/php
+# #- why this \/\//\
+# COPY script.sh /
+# RUN chmod +x /script.sh
+
+# RUN service php7.3-fpm restart
+# CMD ./script.sh && php-fpm7.3 -F
