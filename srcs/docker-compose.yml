@@ -21,8 +21,8 @@ services:
     build: 
       context: ./requirements/mariadb
       dockerfile: Dockerfile
-    expose:
-      - 3306
+    ports:
+      - 3306:3306
     env_file:
       - ./.env
     volumes:
@@ -38,8 +38,8 @@ services:
     build:
       context: ./requirements/wordpress
       dockerfile: Dockerfile
-    expose:
-      - 9000
+    ports:
+      - 9000:9000
     env_file:
       - ./.env
     volumes:
@@ -66,6 +66,22 @@ services:
       - inception
     restart: always
 
+  # ftp:
+  #   build: 
+  #     context: requirements/bonus/ftp
+  #     dockerfile: Dockerfile
+  #   # ports:
+  #   #   - 8000:8000
+  #   depends_on:
+  #     - mariadb
+  #   container_name: ftp
+  #   image: ftp
+  #   env_file:
+  #     - .env
+  #   networks:
+  #     - inception
+  #   restart: always
+
   redis:
     depends_on:
       - wordpress
@@ -85,7 +101,7 @@ services:
   website:
     container_name: website
     build:
-      context: ./requirements/bonus/wipsite
+      context: ./requirements/bonus/website
       dockerfile: Dockerfile
     image: website
     # depends_on:

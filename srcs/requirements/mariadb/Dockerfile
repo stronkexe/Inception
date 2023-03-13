@@ -7,10 +7,6 @@ COPY tools/initdb.sql /
 
 COPY tools/50-server.cnf /etc/mysql/mariadb.conf.d/
 
-# COPY script.sh /
-
-# RUN chmod 777 script.sh
-
 RUN service mysql start && mysql < initdb.sql
 
 CMD [ "mysqld" ]

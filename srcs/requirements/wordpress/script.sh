@@ -4,7 +4,7 @@ cd /var/www/html/wordpress
 curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
 chmod +x wp-cli.phar
 mv wp-cli.phar /usr/local/bin/wp
-wp core install --allow-root --url="ael-asri.42.fr" --title="inception" --admin_name="stronk" --admin_password="pass" --admin_email="stronk@me.com"
+wp core install --allow-root --url=${WP_URL} --title=${WP_TITLE} --admin_name=${WP_ADMIN_USER} --admin_password=${WP_ADMIN_PASS} --admin_email=${WP_ADMIN_EMAIL}
 
 wp plugin install redis-cache --activate --allow-root
 
