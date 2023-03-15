@@ -66,21 +66,23 @@ services:
       - inception
     restart: always
 
-  # ftp:
-  #   build: 
-  #     context: requirements/bonus/ftp
-  #     dockerfile: Dockerfile
-  #   # ports:
-  #   #   - 8000:8000
-  #   depends_on:
-  #     - mariadb
-  #   container_name: ftp
-  #   image: ftp
-  #   env_file:
-  #     - .env
-  #   networks:
-  #     - inception
-  #   restart: always
+  ftp:
+    build: 
+      context: requirements/bonus/ftp
+      dockerfile: Dockerfile
+    ports:
+      - 21:21
+    depends_on:
+      - mariadb
+    container_name: ftp
+    image: ftp
+    env_file:
+      - .env
+    volumes:
+      - wp_data:/home/stronk
+    networks:
+      - inception
+    restart: always
 
   redis:
     depends_on:
@@ -114,19 +116,19 @@ services:
     networks:
       - inception
 
-  bck_service:
+  backup_logs:
     build:
-      context: ./requirements/bonus/bck_service
+      context: ./requirements/bonus/backup_logs
       dockerfile: Dockerfile
-    image: bck_service
+    image: backup_logs
     depends_on:
       - mariadb
     volumes:
       - db_data:/db_data
-      - bck_data:/bck_service
+      - backup_logs_data:/backup_logs
     # env_file:
     #   - .env
-    container_name: bck_service
+    container_name: backup_logs
     restart: always
     networks:
       - inception
@@ -146,13 +148,13 @@ volumes:
       o: bind 
       type: none
       device: "/home/stronk/data/wp_data"
-  bck_data:
-    name: bck_data
+  backup_logs_data:
+    name: backup_logs_data
     driver: local
     driver_opts:
       o: bind
       type: none
-      device: "/home/stronk/data/bck_data"
+      device: "/home/stronk/data/backup_logs_data"
 
 networks:
   inception:
