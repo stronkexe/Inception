@@ -106,13 +106,9 @@ services:
       context: ./requirements/bonus/website
       dockerfile: Dockerfile
     image: website
-    # depends_on:
-    #   - nginx
     ports:
       - 3000:3000
     restart: always
-    # env_file:
-    #   - .env
     networks:
       - inception
 
@@ -126,8 +122,6 @@ services:
     volumes:
       - db_data:/db_data
       - backup_logs_data:/backup_logs
-    # env_file:
-    #   - .env
     container_name: backup_logs
     restart: always
     networks:

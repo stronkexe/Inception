@@ -23,6 +23,3 @@ $(NAME):
 
 down:
 	docker-compose -f ./srcs/docker-compose.yml down
-	rm -rf "/home/$(USER)/data/db_data"
-	rm -rf "/home/$(USER)/data/wp_data"
-	rm -rf "/home/$(USER)/data/backup_logs_data"
