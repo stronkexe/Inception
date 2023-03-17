@@ -18,8 +18,8 @@ $(NAME):
 	sudo mkdir -p "/home/$(USER)/data/db_data"
 	sudo mkdir -p "/home/$(USER)/data/wp_data"
 	sudo mkdir -p "/home/$(USER)/data/backup_logs_data"
-	sudo sh -c 'echo "127.0.1.1\ael-asri.42.fr"  >> /etc/hosts'
-	docker-compose -f ./srcs/docker-compose.yml up --build -d
+	sudo sh -c 'echo "127.0.1.1 ael-asri.42.fr"  >> /etc/hosts'
+	docker compose -f ./srcs/docker-compose.yml up --build -d
 
 down:
-	docker-compose -f ./srcs/docker-compose.yml down
+	docker compose -f ./srcs/docker-compose.yml down

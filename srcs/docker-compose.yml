@@ -79,7 +79,7 @@ services:
     env_file:
       - .env
     volumes:
-      - wp_data:/home/ael-asri
+      - wp_data:/home/aelasri
     networks:
       - inception
     restart: always
@@ -134,21 +134,21 @@ volumes:
     driver_opts:
       o: bind
       type: none
-      device: "/home/ael-asri/data/db_data"
+      device: "/home/aelasri/data/db_data"
   wp_data:
     name: wp_data
     driver: local
     driver_opts:
       o: bind 
       type: none
-      device: "/home/ael-asri/data/wp_data"
+      device: "/home/aelasri/data/wp_data"
   backup_logs_data:
     name: backup_logs_data
     driver: local
     driver_opts:
       o: bind
       type: none
-      device: "/home/ael-asri/data/backup_logs_data"
+      device: "/home/aelasri/data/backup_logs_data"
 
 networks:
   inception:
