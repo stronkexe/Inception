@@ -1,8 +1,26 @@
-FROM debian:buster
+FROM	debian:buster as build
 
-RUN apt-get -y update
-RUN apt-get -y install nodejs npm
+WORKDIR	/app
+ENV 	PATH /app/node_modules/.bin:$PATH
 
-COPY ./tools /
+RUN		apt-get -y update &&\
+        apt-get -y install nodejs && npm
 
-CMD [ "node" ,"app.js" ]
+COPY	package.json ./
+RUN		npm install --silent --only=production --no-optional
+
+COPY 	src/ ./src
+COPY	public/ ./public
+
+RUN		npm run build
+
+FROM 	debian:buster as server
+
+RUN		apt-get -y update &&\
+        apt-get -y install nginx && openssl
+
+RUN		mkdir -p /var/run/nginx
+COPY	--from=build /app/build /var/www/html
+COPY	conf/default.conf /etc/nginx/conf.d/default.conf
+
+CMD		[ "nginx", "-g", "daemon off;" ]
